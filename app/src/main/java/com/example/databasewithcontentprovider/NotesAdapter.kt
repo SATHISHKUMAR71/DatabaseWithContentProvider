@@ -4,13 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 
-class NotesAdapter(private var notesList: MutableList<Notes>,private var activity: FragmentActivity):RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
+class NotesAdapter(private var activity: FragmentActivity,private var db:DBHelper):RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
 
+    private var notesList: MutableList<Notes> = db.readAllNotes()
     inner class NotesViewHolder(itemView: View):RecyclerView.ViewHolder(itemView)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
         return NotesViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.notes_layout,parent,false))
@@ -38,6 +40,11 @@ class NotesAdapter(private var notesList: MutableList<Notes>,private var activit
                     .replace(R.id.fragmentContainerView,addNoteFragment)
                     .addToBackStack("Note View")
                     .commit()
+            }
+            findViewById<ImageButton>(R.id.deleteBtnList).setOnClickListener {
+                db.delete(notesList[position])
+                notesList = db.readAllNotes()
+                notifyItemRemoved(position)
             }
         }
     }

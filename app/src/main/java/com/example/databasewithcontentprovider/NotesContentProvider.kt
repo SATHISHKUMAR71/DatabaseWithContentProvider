@@ -1,6 +1,7 @@
 package com.example.databasewithcontentprovider
 
 import android.content.ContentProvider
+import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.UriMatcher
 import android.database.Cursor
@@ -12,15 +13,17 @@ class NotesContentProvider:ContentProvider() {
 
     private lateinit var dbHelper:DBHelper
     companion object{
-        const val AUTHORITY = "com.example.databasewithcontentprovider.provider"
-        const val PATH_NOTES = "notes"
-        val CONTENT_URI:Uri = Uri.parse("content//$AUTHORITY/$PATH_NOTES")
-
+        const val AUTHORITY = "com.example.databasewithcontentprovider.notescontentprovider"
+        const val PATH_NOTES = DBHelper.TABLE_NAME
+        val CONTENT_URI:Uri = Uri.parse("content://$AUTHORITY/$PATH_NOTES")
         private const val NOTES =1
         private const val NOTES_ID =2
+        private const val NOTES_COUNT = 3
         private val uriMatcher = UriMatcher(UriMatcher.NO_MATCH).apply {
+            addURI("com.example.databasewithcontentprovider.provider", "notes_app", NOTES)
             addURI(AUTHORITY, PATH_NOTES, NOTES)
             addURI(AUTHORITY, "$PATH_NOTES/#", NOTES_ID)
+            addURI(AUTHORITY, "$PATH_NOTES/getNotesCount", NOTES_COUNT)
         }
     }
     override fun onCreate(): Boolean {
@@ -42,20 +45,26 @@ class NotesContentProvider:ContentProvider() {
                 val id = uri.lastPathSegment ?: throw IllegalArgumentException("Invalid URI")
                 db.query(DBHelper.TABLE_NAME,projection,"${DBHelper.COLUMN_ID}=?", arrayOf(id),null,null,sortOrder)
             }
+            NOTES_COUNT -> {
+                dbHelper.getNotesCount()
+            }
             else -> throw IllegalArgumentException("Unknown URI: $uri")
         }
+
     }
 
     override fun getType(uri: Uri): String {
         return when(uriMatcher.match(uri)){
-            NOTES -> "vnd.android.cursor.uri.dir/$AUTHORITY.$PATH_NOTES"
-            NOTES_ID -> "vnd.android.cursor.uri.item/$AUTHORITY.$PATH_NOTES"
+            NOTES -> "${ContentResolver.CURSOR_DIR_BASE_TYPE}/vnd.$AUTHORITY.$PATH_NOTES"
+            NOTES_ID -> "${ContentResolver.CURSOR_ITEM_BASE_TYPE}/vnd.$AUTHORITY.$PATH_NOTES"
+            NOTES_COUNT -> "${ContentResolver.CURSOR_ITEM_BASE_TYPE}/vnd.$AUTHORITY.$PATH_NOTES.notesCount"
             else -> throw IllegalArgumentException("Unknown URI: $uri")
         }
     }
 
     override fun insert(uri: Uri, contentValues: ContentValues?): Uri? {
         val db = dbHelper.writableDatabase
+        println("URI's: $uri")
         val id = db.insert(DBHelper.TABLE_NAME,null,contentValues)
         context?.contentResolver?.notifyChange(uri,null)
         return Uri.withAppendedPath(CONTENT_URI,id.toString())

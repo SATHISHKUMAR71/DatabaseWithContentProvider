@@ -54,7 +54,7 @@ class AddNote : Fragment() {
                 note = Notes(noteId,title.text.toString(),content.text.toString(),LocalDate.now().toString(),LocalDate.now().toString(),0)
                 notesDB.update(note)
             }
-            println((Notes(0,title.text.toString(),content.text.toString(),LocalDate.now().toString(),LocalDate.now().toString(),0)).toString())
+            println((Notes(noteId,title.text.toString(),content.text.toString(),LocalDate.now().toString(),LocalDate.now().toString(),0)).toString())
             parentFragmentManager.popBackStack()
         }
         view.findViewById<ImageButton>(R.id.deleteNote).setOnClickListener {

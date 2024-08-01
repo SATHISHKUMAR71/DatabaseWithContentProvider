@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <permission android:name="com.example.databasewithcontentprovider.permission.ACCESS_PROVIDER"
+        android:protectionLevel="normal"/>
+    <permission android:name="com.example.databasewithcontentprovider.permission.WRITE_PROVIDER"
+        android:protectionLevel="normal"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,6 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DatabaseInAndroid"
         tools:targetApi="31">
+        <provider
+            android:name=".NotesContentProvider"
+            android:authorities="com.example.databasewithcontentprovider.notescontentprovider"
+            android:exported="true"
+            android:permission="com.example.databasewithcontentprovider.permission.ACCESS_PROVIDER"
+            android:writePermission="com.example.databasewithcontentprovider.permission.WRITE_PROVIDER"
+            android:forceUriPermissions="true">
+
+        </provider>
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -21,11 +34,5 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <provider
-            android:authorities="com.example.databasewithcontentprovider.provider"
-            android:name=".NotesContentProvider"
-            android:exported="true"
-            android:grantUriPermissions="true"/>
     </application>
-
 </manifest>
