@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.databaseinandroid"
+    namespace = "com.example.databasewithcontentprovider"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.databaseinandroid"
+        applicationId = "com.example.databasewithcontentprovider"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

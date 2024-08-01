@@ -1,19 +1,22 @@
-package com.example.databaseinandroid
+package com.example.databasewithcontentprovider
 
-import android.opengl.Visibility
+import android.net.Uri
 import android.os.Bundle
-import android.view.View
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         println("Activity OnCreate")
         setContentView(R.layout.activity_main)
+
+        val uri = Uri.parse("content://com.example.databasewithcontentprovider.provider/notes")
+        val cursor = contentResolver.query(uri,null,null,null,null)
+        cursor?.use {
+            while (it.moveToNext()){
+                println("Title: ${it.getString(it.getColumnIndexOrThrow("title"))}")
+            }
+        }
     }
 
     override fun onDestroy() {

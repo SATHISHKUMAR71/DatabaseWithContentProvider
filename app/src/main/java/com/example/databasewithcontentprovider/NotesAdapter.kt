@@ -1,4 +1,4 @@
-package com.example.databaseinandroid
+package com.example.databasewithcontentprovider
 
 import android.os.Bundle
 import android.view.LayoutInflater

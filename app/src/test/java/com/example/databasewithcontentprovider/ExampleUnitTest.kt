@@ -1,4 +1,4 @@
-package com.example.databaseinandroid
+package com.example.databasewithcontentprovider
 
 import org.junit.Test
 

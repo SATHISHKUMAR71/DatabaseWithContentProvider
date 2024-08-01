@@ -1,4 +1,4 @@
-package com.example.databaseinandroid
+package com.example.databasewithcontentprovider
 
 import android.content.ContentValues
 import android.content.Context
@@ -7,10 +7,10 @@ import android.database.sqlite.SQLiteOpenHelper
 
 class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME,null, DB_VERSION){
     companion object{
-        private const val  DB_NAME = "notes_app.db"
+        const val  DB_NAME = "notes_app.db"
         private const val DB_VERSION = 1
-        private const val TABLE_NAME = "notes_app"
-        private const val COLUMN_ID = "id"
+        const val TABLE_NAME = "notes_app"
+        const val COLUMN_ID = "id"
         private const val COLUMN_TITLE = "title"
         private const val COLUMN_CONTENT = "content"
         private const val COLUMN_CREATED_AT = "created_at"
