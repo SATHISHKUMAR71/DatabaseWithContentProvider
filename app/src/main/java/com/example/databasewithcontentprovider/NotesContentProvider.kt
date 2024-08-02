@@ -13,9 +13,9 @@ class NotesContentProvider:ContentProvider() {
 
     private lateinit var dbHelper:DBHelper
     companion object{
-        const val AUTHORITY = "com.example.databasewithcontentprovider.notescontentprovider"
-        const val PATH_NOTES = DBHelper.TABLE_NAME
-        val CONTENT_URI:Uri = Uri.parse("content://$AUTHORITY/$PATH_NOTES")
+        const val AUTHORITY = ContractNotes.AUTHORITY
+        const val PATH_NOTES = ContractNotes.PATH_NOTES
+        val CONTENT_URI:Uri = ContractNotes.CONTENT_URI
         private const val NOTES =1
         private const val NOTES_ID =2
         private const val NOTES_COUNT = 3

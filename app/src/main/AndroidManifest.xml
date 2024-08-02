@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <permission android:name="com.example.databasewithcontentprovider.permission.ACCESS_PROVIDER"
-        android:protectionLevel="normal"/>
+        android:protectionLevel="normal" />
     <permission android:name="com.example.databasewithcontentprovider.permission.WRITE_PROVIDER"
         android:protectionLevel="normal"/>
     <application
@@ -16,15 +16,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DatabaseInAndroid"
         tools:targetApi="31">
+
         <provider
             android:name=".NotesContentProvider"
             android:authorities="com.example.databasewithcontentprovider.notescontentprovider"
             android:exported="true"
-            android:permission="com.example.databasewithcontentprovider.permission.ACCESS_PROVIDER"
-            android:writePermission="com.example.databasewithcontentprovider.permission.WRITE_PROVIDER"
-            android:forceUriPermissions="true">
-
-        </provider>
+            android:readPermission="com.example.databasewithcontentprovider.permission.ACCESS_PROVIDER"
+            android:writePermission="com.example.databasewithcontentprovider.permission.WRITE_PROVIDER"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">
